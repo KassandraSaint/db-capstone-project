@@ -38,6 +38,15 @@ CREATE TABLE `bookings` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `bookings`
+--
+
+LOCK TABLES `bookings` WRITE;
+/*!40000 ALTER TABLE `bookings` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bookings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `customer`
 --
 
@@ -53,6 +62,15 @@ CREATE TABLE `customer` (
   UNIQUE KEY `CustomerID_UNIQUE` (`CustomerID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `customer`
+--
+
+LOCK TABLES `customer` WRITE;
+/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `deliverystats`
@@ -74,6 +92,15 @@ CREATE TABLE `deliverystats` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `deliverystats`
+--
+
+LOCK TABLES `deliverystats` WRITE;
+/*!40000 ALTER TABLE `deliverystats` DISABLE KEYS */;
+/*!40000 ALTER TABLE `deliverystats` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `menu`
 --
 
@@ -82,16 +109,77 @@ DROP TABLE IF EXISTS `menu`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `menu` (
   `MenuID` int NOT NULL AUTO_INCREMENT,
+  `MenuName` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`MenuID`),
+  UNIQUE KEY `MenuID_UNIQUE` (`MenuID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `menu`
+--
+
+LOCK TABLES `menu` WRITE;
+/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
+/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `menuitem`
+--
+
+DROP TABLE IF EXISTS `menuitem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `menuitem` (
+  `MenuItemID` int NOT NULL AUTO_INCREMENT,
   `MenuItem` varchar(45) NOT NULL,
   `Cuisine` varchar(45) NOT NULL,
   `ItemType` varchar(45) NOT NULL,
-  `OrderID` int NOT NULL,
-  PRIMARY KEY (`MenuID`),
-  UNIQUE KEY `MenuID_UNIQUE` (`MenuID`),
-  KEY `order_menu_fk_idx` (`OrderID`),
-  CONSTRAINT `order_menu_fk` FOREIGN KEY (`OrderID`) REFERENCES `orders` (`OrderID`) ON DELETE CASCADE ON UPDATE CASCADE
+  `MenuID` int NOT NULL,
+  PRIMARY KEY (`MenuItemID`),
+  UNIQUE KEY `MenuID_UNIQUE` (`MenuItemID`),
+  KEY `menuitem_menu_fk_idx` (`MenuID`),
+  CONSTRAINT `menuitem_menu_fk` FOREIGN KEY (`MenuID`) REFERENCES `menu` (`MenuID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `menuitem`
+--
+
+LOCK TABLES `menuitem` WRITE;
+/*!40000 ALTER TABLE `menuitem` DISABLE KEYS */;
+/*!40000 ALTER TABLE `menuitem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orderitems`
+--
+
+DROP TABLE IF EXISTS `orderitems`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `orderitems` (
+  `OrderItemID` int NOT NULL,
+  `MenuItemID` int NOT NULL,
+  `OrderID` int NOT NULL,
+  PRIMARY KEY (`OrderItemID`),
+  KEY `orders_orderitem_fk_idx` (`OrderID`),
+  KEY `orderitems_menuitem_fk_idx` (`MenuItemID`),
+  CONSTRAINT `orderitems_menuitem_fk` FOREIGN KEY (`MenuItemID`) REFERENCES `menuitem` (`MenuItemID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `orders_orderitem_fk` FOREIGN KEY (`OrderID`) REFERENCES `orders` (`OrderID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orderitems`
+--
+
+LOCK TABLES `orderitems` WRITE;
+/*!40000 ALTER TABLE `orderitems` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orderitems` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `orders`
@@ -114,6 +202,15 @@ CREATE TABLE `orders` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `orders`
+--
+
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `staff`
 --
 
@@ -128,6 +225,15 @@ CREATE TABLE `staff` (
   UNIQUE KEY `StaffID_UNIQUE` (`StaffID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `staff`
+--
+
+LOCK TABLES `staff` WRITE;
+/*!40000 ALTER TABLE `staff` DISABLE KEYS */;
+/*!40000 ALTER TABLE `staff` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -138,4 +244,4 @@ CREATE TABLE `staff` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-02 22:13:14
+-- Dump completed on 2024-01-04 13:50:22
